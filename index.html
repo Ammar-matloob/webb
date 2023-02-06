@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Express, Socket.io and Body-parser Example</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      window.addEventListener("load", function() {
+        const socket = io();
+          socket.on("update messages", (msg) => {
+        });
+        const chatForm = document.getElementById("chat-form");
+        const messages = document.getElementById("messages");
+        const messageInput = document.getElementById("m");
+
+        socket.on("chat message", msg => {
+          const li = document.createElement("li");
+          li.innerText = msg;
+          messages.appendChild(li);
+        });
+
+
+        chatForm.addEventListener("submit", e => {
+          e.preventDefault();
+          socket.emit("chat message", messageInput.value);
+          messageInput.value = "";
+        });
+      });
+
+    </script>
+  </head>
+  <body>
+    <form id="chat-form">
+        <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    <ul id="messages"></ul>
+  </body>
+</html>
